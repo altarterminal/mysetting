@@ -23,4 +23,5 @@ mkdir -p "$idir"
 # shellshoccar
 cd "$ddir"
 git clone https://github.com/ShellShoccar-jpn/installer.git shellshoccar
-
+cd shellshoccar
+sh shellshoccar.sh --prefix="${idir}/shellshoccar" install
