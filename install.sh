@@ -21,7 +21,21 @@ mkdir -p "$idir"
 ######################################################################
 
 # shellshoccar
-cd "$ddir"
-git clone https://github.com/ShellShoccar-jpn/installer.git shellshoccar
-cd shellshoccar
-sh shellshoccar.sh --prefix="${idir}/shellshoccar" install
+(
+  # 既存のツールを削除
+  cd "$idir"
+  [ -d 'shellshoccar' ] && rm -rf 'shellshoccar'
+
+  # ツールを配置
+  cd "$ddir"
+  [ -d 'shellshoccar' ] && rm -rf 'shellshoccar'
+  git clone https://github.com/ShellShoccar-jpn/installer.git shellshoccar
+  cd shellshoccar
+  sh shellshoccar.sh --prefix="${idir}/shellshoccar" install
+
+  # パスを追加
+  estr='export PATH="'"${idir}/shellshoccar/bin:"'${PATH}''"'
+  if ! cat ~/.bashrc | grep -q "$estr"; then
+    echo "$estr" >> ~/.bashrc
+  fi
+)
