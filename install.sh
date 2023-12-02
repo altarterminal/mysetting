@@ -86,7 +86,6 @@ mkdir -p "$idir"
 
 # コマンドインストール
 if [ "$iscmdinstall" = 'yes' ]; then
-  sudo su
-  apt install -y vim screen
-  apt install -y gawk
+  sudo apt install -y vim screen
+  sudo apt install -y gawk
 fi
