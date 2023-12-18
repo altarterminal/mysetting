@@ -76,7 +76,7 @@ fi
   cd "$ddir"
 
   # インストール本体処理
-  if [ ! -d 'shellshoccar' ]; then
+  if [ ! -d #${idir}/shellshoccar" ]; then
     git clone https://github.com/ShellShoccar-jpn/installer.git shellshoccar
     cd shellshoccar
     sh shellshoccar.sh --prefix="${idir}/shellshoccar" install
