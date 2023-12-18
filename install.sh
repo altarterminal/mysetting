@@ -88,4 +88,5 @@ mkdir -p "$idir"
 if [ "$iscmdinstall" = 'yes' ]; then
   sudo apt install -y vim screen
   sudo apt install -y gawk
+  sudo apt install -y nkf
 fi
