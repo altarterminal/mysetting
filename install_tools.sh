@@ -12,7 +12,7 @@ Options : -f
 
 install tools.
 
--f: delete the existing files
+-f: replace the existing files
 USAGE
   exit 1
 }
