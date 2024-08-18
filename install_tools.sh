@@ -2,27 +2,23 @@
 set -eu
 
 ######################################################################
-# 設定
+# setting
 ######################################################################
 
-tdir=~/Tools
-ddir="${tdir}/download"
-idir="${tdir}/install"
-
 print_usage_and_exit () {
-  cat <<-USAGE 1>&2
-	Usage   : ${0##*/}
-	Options : -f
+  cat <<USAGE 1>&2
+Usage   : ${0##*/}
+Options : -f
 
-	必要な環境をインストールする。
+install tools.
 
-	-fオプションで既存のディレクトリを削除して再インストールできる。
-	USAGE
+-f: delete the existing files
+USAGE
   exit 1
 }
 
 ######################################################################
-# パラメータ
+# parameter
 ######################################################################
 
 opr=''
@@ -47,44 +43,44 @@ do
   i=$((i + 1))
 done
 
-isreinstall=$opt_f
+IS_FORCE=${opt_f}
+
+TOOL_DIR=${HOME}/Tools
+DOWNLOAD_DIR=${TOOL_DIR}/download
+INSTALL_DIR=${TOOL_DIR}/install
 
 ######################################################################
-# 事前準備
+# prepare
 ######################################################################
 
-mkdir -p "$ddir"
-mkdir -p "$idir"
+mkdir -p "${DOWNLOAD_DIR}"
+mkdir -p "${INSTALL_DIR}"
 
-#####################################################################
-# 前準備
-######################################################################
-
-if [ "$isreinstall" == 'yes' ]; then
-  # 既存のツールを削除
-  cd "$idir"
-
-  [ -d 'shellshoccar' ] && rm -rf 'shellshoccar'
+if [ "${IS_FORCE}" = 'yes' ]; then
+  (
+    cd "${INSTALL_DIR}"
+    [ -d 'shellshoccar' ] && rm -rf 'shellshoccar'
+  )
 fi
 
 ######################################################################
-# 本体処理
+# main routine
 ######################################################################
 
 # shellshoccar
 (
-  cd "$ddir"
+  if [ ! -d "${INSTALL_DIR}/shellshoccar" ];
+    cd "${DOWNLOAD_DIR}"
 
-  # インストール本体処理
-  if [ ! -d #${idir}/shellshoccar" ]; then
-    git clone https://github.com/ShellShoccar-jpn/installer.git shellshoccar
-    cd shellshoccar
-    sh shellshoccar.sh --prefix="${idir}/shellshoccar" install
+    [ -d 'shellshoccar' ] && rm -rf 'shellshoccar'
+    git clone 'https://github.com/ShellShoccar-jpn/installer.git' 'shellshoccar'
+
+    cd 'shellshoccar'
+    sh shellshoccar.sh --prefix="${INSTALL_DIR}/shellshoccar" install
   fi
 
-  # パスを追加
-  estr='export PATH="'"${idir}/shellshoccar/bin:"'${PATH}''"'
-  if ! cat ~/.bashrc | grep -q "$estr"; then
-    echo "$estr" >> ~/.bashrc
+  PATH_DESC='export PATH="'"${INSTALL_DIR}/shellshoccar/bin:"'${PATH}''"'
+  if ! cat ~/.bashrc | grep -q "${PATH_DESC}"; then
+    echo "${PATH_DESC}" >> ~/.bashrc
   fi
 )
