@@ -69,7 +69,7 @@ fi
 
 # shellshoccar
 (
-  if [ ! -d "${INSTALL_DIR}/shellshoccar" ];
+  if [ ! -d "${INSTALL_DIR}/shellshoccar" ]; then
     cd "${DOWNLOAD_DIR}"
 
     [ -d 'shellshoccar' ] && rm -rf 'shellshoccar'
